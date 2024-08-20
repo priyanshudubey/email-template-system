@@ -1,5 +1,7 @@
 const dotenv = require("dotenv");
-const res = dotenv.config();
+const path = require("path");
+
+const res = dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 if (res.error) {
   console.error("Error loading environment variables:", res.error);
