@@ -1,6 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  // const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignUpClick = (event) => {
+    event.preventDefault();
+    navigate("/Signup");
+  };
   return (
     <div>
       <form className="absolute w-full m-20 p-12 md:w-3/12 mx-auto right-0 left-0 text-white bg-orange-700 rounded-lg">
@@ -28,6 +38,14 @@ const Login = () => {
           className="p-4 my-4 bg-black w-full rounded-lg font-extrabold"
           type="submit">
           Login
+        </button>
+        <br />
+        <p className="text-center text-white">Don't have an account?</p>
+        <button
+          onClick={handleSignUpClick}
+          className="p-4 my-4 bg-black w-full rounded-lg font-extrabold"
+          type="submit">
+          Sign Up
         </button>
       </form>
     </div>

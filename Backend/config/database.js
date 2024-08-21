@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   {
     host: config.database.host,
     dialect: "mysql",
-    logging: false, // Disable logging; default: console.log
+    logging: false,
   }
 );
 console.log("Databse name: ", config.database.name);
@@ -24,7 +24,6 @@ const testConnection = async () => {
   }
 };
 
-// Test the database connection when the application starts
 testConnection();
 
 module.exports = sequelize;
