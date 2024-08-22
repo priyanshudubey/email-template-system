@@ -19,7 +19,10 @@ E-Temp Store is a simple email template system that allows users to create, edit
 - Searching email templates
 - Filtering email templates
 - # Advanced functionalities:
+
   - Dividing email templates into multiple sub-levels
   - Creating a new email template from an existing one
   - Keeping `placeholders` in the email template for future use
   - Using `variables` in the email template for dynamic content
+
+- Using `conditional statements` in the email template for dynamic content
