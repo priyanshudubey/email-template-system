@@ -18,7 +18,10 @@ const config = {
     dialect: "mysql",
   },
   server: {
-    port: process.env.REACT_APP_PORT || 3000,
+    port: process.env.REACT_APP_PORT || 5000,
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET_KEY,
   },
 };
 console.log(config.database.host);

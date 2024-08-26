@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
   {
     host: config.database.host,
     dialect: "mysql",
-    logging: false,
+    logging: console.log,
   }
 );
 console.log("Databse name: ", config.database.name);

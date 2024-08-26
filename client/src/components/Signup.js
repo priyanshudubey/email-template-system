@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { validation, validatePasswordsMatch } from "../utils/validate"; // Import validation functions
 import Tooltip from "../utils/Tooltip";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -11,8 +12,9 @@ const Signup = () => {
   const confirmPassword = useRef(null);
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const handleSignUpClick = (event) => {
+  const handleSignUpClick = async (event) => {
     event.preventDefault();
 
     const userCredentials = {
@@ -31,8 +33,23 @@ const Signup = () => {
     };
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log("Signup successful!");
-      navigate("/home"); // Redirect to the home page or wherever after successful signup
+      try {
+        setLoading(true);
+        // Send POST request to the signup API
+        const response = await axios.post("http://localhost:5000/signup", {
+          username: email.current.value.split("@")[0], // Example: Use email prefix as username
+          email: email.current.value,
+          password: password.current.value,
+        });
+
+        console.log(response.data.message); // Success message from server
+        navigate("/home"); // Redirect to the home page or wherever after successful signup
+      } catch (error) {
+        console.error("Signup error:", error);
+        setErrors({ server: "Signup failed. Please try again." });
+      } finally {
+        setLoading(false);
+      }
     } else {
       setErrors(validationErrors);
       console.log(validationErrors);
@@ -93,10 +110,15 @@ const Signup = () => {
           <button
             onClick={handleSignUpClick}
             className="p-4 my-4 bg-black w-full rounded-lg font-extrabold"
-            type="submit">
-            Sign Up
+            type="submit"
+            disabled={loading} // Disable the button while loading
+          >
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
           <br />
+          {errors.server && (
+            <p className="text-red-500 text-center">{errors.server}</p>
+          )}
           <p className="text-center text-white">Already have an account?</p>
           <button
             onClick={handleLoginClick}

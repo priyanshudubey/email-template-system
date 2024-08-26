@@ -1,36 +1,33 @@
 const express = require("express");
-
+const bodyParser = require("body-parser");
 const cors = require("cors");
+const userRoutes = require("./routes/users"); // Import user routes
+const signupRoutes = require("./routes/users");
 
 const app = express();
-app.use(cors());
+const PORT = 5000;
 
-app.post("/signup", async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
+app.use(bodyParser.json()); // Middleware for JSON body parsing
+app.use(express.urlencoded({ extended: true }));
 
-    // Check if user already exists
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
+// Configure CORS
+const corsOptions = {
+  origin: "http://localhost:3000", // Adjust if needed
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: "Content-Type, Authorization",
+};
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+app.use(cors(corsOptions));
 
-    // Create a new user
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-    });
+// Route for user authentication
+app.use("/api/users", userRoutes);
+app.use(signupRoutes);
 
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
+app.use((err, req, res, next) => {
+  console.error(err.stack); // Log the stack trace for debugging
+  res.status(500).json({ message: "Server error", error: err });
 });
 
-app.listen(8081, () => {
-  console.log("server is running on port 8081");
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
