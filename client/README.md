@@ -26,3 +26,6 @@ E-Temp Store is a simple email template system that allows users to create, edit
   - Using `variables` in the email template for dynamic content
 
 - Using `conditional statements` in the email template for dynamic content
+- Using Mustache for email parser
+- Added Quill for the text editor
+- Added a feature to save the email template as a draft
