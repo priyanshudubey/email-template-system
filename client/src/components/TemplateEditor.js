@@ -3,7 +3,7 @@ import "quill/dist/quill.snow.css"; // Import Quill's styles
 import Quill from "quill";
 import "./TextEditor.css"; // Import your custom CSS
 
-const TextEditor = () => {
+const TemplateEditor = () => {
   const editorContainerRef = useRef(null);
   const quillRef = useRef(null);
 
@@ -53,17 +53,31 @@ const TextEditor = () => {
   }, []);
 
   return (
-    <div className="editor-container">
-      <div
-        ref={editorContainerRef}
-        className="editor"></div>
-      <button
-        id="saveButton"
-        className="save-button">
-        Save
-      </button>
+    <div>
+      <div class="w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-4xl relative mt-4 p-4">
+        <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+          <label class="h-10 text-white font-bold bg-teal-600 rounded-lg px-3 flex items-center">
+            Subject:
+          </label>
+          <input
+            class="w-full h-10 pl-3 py-2 border rounded"
+            placeholder="Enter your Email Subject"
+          />
+        </div>
+      </div>
+
+      <div className="editor-container">
+        <div
+          ref={editorContainerRef}
+          className="editor"></div>
+        <button
+          id="saveButton"
+          className="p-4 m-4 bg-teal-600 text-white rounded-lg">
+          Save
+        </button>
+      </div>
     </div>
   );
 };
 
-export default TextEditor;
+export default TemplateEditor;

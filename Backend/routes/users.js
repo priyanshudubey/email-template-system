@@ -6,6 +6,7 @@ const { User } = require("../db");
 const router = express.Router();
 const config = require("../config/config");
 const cors = require("cors");
+const authenticateToken = require("../middleware/authenticateToken");
 
 const corsOptions = {
   origin: "http://localhost:3000", // Adjust if needed
@@ -19,14 +20,14 @@ router.post("/signup", async (req, res) => {
   console.log("Inside signup");
   try {
     const { username, email, password } = req.body;
-    console.log(
-      "Username: ",
-      username,
-      " - Email: ",
-      email,
-      " - password: ",
-      password
-    );
+    // console.log(
+    //   "Username: ",
+    //   username,
+    //   " - Email: ",
+    //   email,
+    //   " - password: ",
+    //   password
+    // );
     const existingUser = await User.findOne({ where: { email } });
     console.log("existing");
     if (existingUser) {
@@ -67,11 +68,59 @@ router.post("/login", async (req, res) => {
     // Generate JWT token
     const token = jwt.sign(
       { id: user.id, email: user.email },
-      config.jwt.secret, // Use the secret key from config
+      config.jwt.secret,
       { expiresIn: "1h" }
     );
 
-    res.json({ token });
+    // Send token and username
+    res.json({ token, username: user.username });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Get User Profile
+router.get("/profile", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    const user = await User.findByPk(userId, {
+      attributes: ["id", "username", "email"],
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    console.log("Fetched user:", user);
+
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Update User Profile
+router.put("/profile", authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { username, email, password } = req.body;
+
+    const updateData = { username, email };
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateData.password = hashedPassword;
+    }
+
+    const [updatedRowsCount, updatedRows] = await User.update(updateData, {
+      where: { id: userId },
+      returning: true,
+    });
+
+    if (updatedRowsCount === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(updatedRows[0]);
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }

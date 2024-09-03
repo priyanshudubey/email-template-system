@@ -59,7 +59,7 @@ const Signup = () => {
 
   const handleLoginClick = (event) => {
     event.preventDefault();
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -82,7 +82,6 @@ const Signup = () => {
             />
             {errors.email && <Tooltip message={errors.email} />}
           </div>
-          <br />
           <div className="relative">
             <input
               ref={password}
@@ -93,7 +92,6 @@ const Signup = () => {
             />
             {errors.password && <Tooltip message={errors.password} />}
           </div>
-          <br />
           <div className="relative">
             <input
               ref={confirmPassword}
@@ -106,7 +104,6 @@ const Signup = () => {
               <Tooltip message={errors.confirmPassword} />
             )}
           </div>
-          <br />
           <button
             onClick={handleSignUpClick}
             className="p-4 my-4 bg-black w-full rounded-lg font-extrabold"
@@ -124,7 +121,7 @@ const Signup = () => {
             onClick={handleLoginClick}
             className="p-4 my-4 bg-black w-full rounded-lg font-extrabold"
             type="submit">
-            Login
+            Sign In
           </button>
         </form>
       </div>
