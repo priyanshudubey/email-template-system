@@ -1,7 +1,7 @@
 .editor-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full height of viewport */
+  height: 70vh; /* Full height of viewport */
   border: 1px solid #ddd;
   border-radius: 8px;
 }
@@ -12,7 +12,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   overflow-y: auto;
-  height: calc(100% - 40px); /* Adjust height to account for button */
+  height: calc(80% - 40px); /* Adjust height to account for button */
 }
 
 .save-button {

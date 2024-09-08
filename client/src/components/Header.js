@@ -18,7 +18,7 @@ const Header = () => {
     logout(); // Call logout from context
     localStorage.removeItem("token");
     localStorage.removeItem("username");
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -27,7 +27,7 @@ const Header = () => {
       <div className="h-20 flex justify-between items-center text-[#545454] px-4 sm:px-6 py-2">
         <div className="w-20 sm:w-24 flex justify-center sm:justify-start">
           <img
-            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full cursor-pointer"
+            className="w-12 h-12 sm:w-14 sm:h-14 cursor-pointer"
             src="/favicon.png"
             alt="logo"
             onClick={() => navigate("/home")}
@@ -43,7 +43,6 @@ const Header = () => {
             onClick={toggleMenu}
           />
         </div>
-
         {/* Desktop menu items */}
         <div className="hidden sm:flex items-center text-white">
           <ul className="flex p-8 m-8 gap-4">
@@ -74,7 +73,7 @@ const Header = () => {
             </div>
           ) : (
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/")}
               className="px-4 py-2 bg-teal-600 text-white rounded-lg font-extrabold">
               Login
             </button>
@@ -128,7 +127,7 @@ const Header = () => {
           ) : (
             <button
               onClick={() => {
-                navigate("/login");
+                navigate("/");
                 setIsMenuOpen(false);
               }}
               className="px-4 py-2 mt-2 bg-teal-600 text-white rounded-lg font-extrabold">

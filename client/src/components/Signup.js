@@ -59,15 +59,15 @@ const Signup = () => {
 
   const handleLoginClick = (event) => {
     event.preventDefault();
-    navigate("/login");
+    navigate("/");
   };
 
   return (
     <div>
       <div>
-        <form className="absolute w-full m-20 p-12 md:w-3/12 mx-auto right-0 left-0 text-white bg-orange-700 rounded-lg">
+        <form className="relative w-full m-12 p-12 md:w-3/12 mx-auto text-white bg-teal-600 rounded-lg shadow-black shadow-2xl">
           <img
-            className=""
+            className="h-20 mx-auto"
             src="/logo.png"
             alt="logo"
           />
@@ -75,7 +75,7 @@ const Signup = () => {
           <div className="relative">
             <input
               ref={email}
-              className="p-2 my-4 w-full rounded-lg bg-black"
+              className="p-2 my-4 w-full rounded-lg bg-black shadow-black shadow-lg"
               type="email"
               name="email"
               placeholder="Email"
@@ -85,7 +85,7 @@ const Signup = () => {
           <div className="relative">
             <input
               ref={password}
-              className="p-2 my-4 w-full rounded-lg bg-black"
+              className="p-2 my-4 w-full rounded-lg bg-black shadow-black shadow-lg"
               type="password"
               name="password"
               placeholder="Password"
@@ -95,7 +95,7 @@ const Signup = () => {
           <div className="relative">
             <input
               ref={confirmPassword}
-              className="p-2 my-4 w-full rounded-lg bg-black"
+              className="p-2 my-4 w-full rounded-lg bg-black shadow-black shadow-lg"
               type="password"
               name="confirm_password"
               placeholder="Confirm Password"
@@ -106,20 +106,19 @@ const Signup = () => {
           </div>
           <button
             onClick={handleSignUpClick}
-            className="p-4 my-4 bg-black w-full rounded-lg font-extrabold"
+            className="p-4 my-4 bg-black w-full rounded-lg font-extrabold shadow-black shadow-lg"
             type="submit"
             disabled={loading} // Disable the button while loading
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
-          <br />
           {errors.server && (
             <p className="text-red-500 text-center">{errors.server}</p>
           )}
           <p className="text-center text-white">Already have an account?</p>
           <button
             onClick={handleLoginClick}
-            className="p-4 my-4 bg-black w-full rounded-lg font-extrabold"
+            className="p-4 my-4 bg-black w-full rounded-lg font-extrabold shadow-black shadow-lg"
             type="submit">
             Sign In
           </button>

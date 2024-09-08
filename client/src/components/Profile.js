@@ -25,7 +25,7 @@ const Profile = () => {
             "Unauthorized while fetching profile, redirecting to login"
           );
           localStorage.removeItem("token");
-          window.location.href = "/login"; // Redirect to login
+          window.location.href = "/"; // Redirect to login
         } else if (response.status === 403) {
           // Forbidden
           console.log("Forbidden access while fetching profile");
@@ -70,7 +70,7 @@ const Profile = () => {
           "Unauthorized while updating profile, redirecting to login"
         );
         localStorage.removeItem("token");
-        window.location.href = "/login"; // Redirect to login
+        window.location.href = "/"; // Redirect to login
       } else if (response.status === 403) {
         // Forbidden
         console.log("Forbidden access while updating profile");

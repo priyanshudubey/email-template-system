@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const userRoutes = require("./routes/users"); // Import user routes
 const signupRoutes = require("./routes/users");
+const templateRoutes = require("./routes/templates");
 
 const app = express();
 const PORT = 5000;
@@ -22,6 +23,7 @@ app.use(cors(corsOptions));
 // Route for user authentication
 app.use("/api/users", userRoutes);
 app.use(signupRoutes);
+app.use("/templates", templateRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack); // Log the stack trace for debugging

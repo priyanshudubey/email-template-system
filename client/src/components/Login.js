@@ -63,28 +63,27 @@ const Login = () => {
 
   return (
     <div>
-      <form className="relative w-full m-20 p-12 md:w-3/12 mx-auto text-white bg-teal-600 rounded-lg">
+      <form className="relative w-full m-12 p-12 md:w-3/12 mx-auto text-white bg-teal-600 rounded-lg shadow-black shadow-2xl">
         <img
-          className=""
+          className="h-20 mx-auto"
           src="/logo.png"
-          alt="logo"
+          alt="e-Temp logo"
         />
         <br />
         <div className="relative">
           <input
             ref={email}
-            className="p-2 my-4 w-full rounded-lg bg-black shadow-black shadow-lg"
+            className="p-4 my-2 w-full rounded-lg bg-black shadow-black shadow-lg"
             type="email"
             name="email"
             placeholder="Email"
           />
           {errors.email && <Tooltip message={errors.email} />}
         </div>
-        <br />
         <div className="relative">
           <input
             ref={password}
-            className="p-2 my-4 w-full rounded-lg bg-black shadow-black shadow-lg"
+            className="p-4 my-2 w-full rounded-lg bg-black shadow-black shadow-lg"
             type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
@@ -96,18 +95,16 @@ const Login = () => {
           </span>
           {errors.password && <Tooltip message={errors.password} />}
         </div>
-        <br />
         <button
           onClick={handleLoginClick}
           className="p-4 my-4 bg-black w-full rounded-lg font-extrabold hover:bg-gray-500 shadow-black shadow-lg transition-all"
           type="submit">
           Sign In
         </button>
-        <br />
         <p className="text-center text-white">Don't have an account?</p>
         <button
           onClick={handleSignUpClick}
-          className="p-4 my-4 bg-black w-full rounded-lg font-extrabold hover:bg-gray-500 shadow-black shadow-lg"
+          className="p-4 my-2 bg-black w-full rounded-lg font-extrabold hover:bg-gray-500 shadow-black shadow-lg"
           type="submit">
           Sign Up
         </button>
