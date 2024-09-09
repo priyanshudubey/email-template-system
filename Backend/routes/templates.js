@@ -66,9 +66,9 @@ router.put("/:id", authenticateToken, async (req, res) => {
 router.delete("/:id", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.user.id;
+    const user_id = req.user.id;
 
-    const template = await Template.findOne({ where: { id, userId } });
+    const template = await Template.findOne({ where: { id, user_id } });
 
     if (!template) {
       return res.status(404).json({ message: "Template not found" });

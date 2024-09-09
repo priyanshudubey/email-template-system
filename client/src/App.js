@@ -33,7 +33,7 @@ function App() {
             element={<PrivateRoute element={<Home />} />}
           />
           <Route
-            path="/template"
+            path="/templates/*"
             element={<PrivateRoute element={<Template />} />}
           />
           <Route

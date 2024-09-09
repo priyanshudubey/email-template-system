@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/authContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -51,10 +52,8 @@ const Header = () => {
               onClick={() => navigate("/home")}>
               Home
             </li>
-            <li
-              className="px-4 rounded-lg font-extrabold cursor-pointer"
-              onClick={() => navigate("/template")}>
-              Templates
+            <li className="px-4 rounded-lg font-extrabold cursor-pointer">
+              <Link to="/templates">Templates</Link>
             </li>
             <li
               className="px-4 rounded-lg font-extrabold cursor-pointer"

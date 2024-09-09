@@ -3,10 +3,10 @@ import "quill/dist/quill.snow.css"; // Import Quill's styles
 import Quill from "quill";
 import "./TextEditor.css";
 
-const TemplateEditor = () => {
+const TemplateEditor = ({ template }) => {
   const editorContainerRef = useRef(null);
   const quillRef = useRef(null);
-  const [subject, setSubject] = useState("");
+  const [subject, setSubject] = useState(template ? template.subject : ""); // Initialize with template subject if available
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -16,20 +16,23 @@ const TemplateEditor = () => {
         theme: "snow",
         modules: {
           toolbar: [
-            [{ header: [1, 2, 3, false] }], // Header options
-            [{ size: ["small", false, "large", "huge"] }], // Text size options
-            [{ list: "ordered" }, { list: "bullet" }], // List options
-            ["bold", "italic", "underline"], // Formatting options
-            [{ color: [] }], // Text color options
-            ["link"], // Link option
-            ["clean"], // Clear formatting option
+            [{ header: [1, 2, 3, false] }],
+            [{ size: ["small", false, "large", "huge"] }],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["bold", "italic", "underline"],
+            [{ color: [] }],
+            ["link"],
+            ["clean"],
           ],
         },
       });
-    }
-  }, []);
 
-  // Handle form submission and saving to the backend
+      if (template && template.email) {
+        quillRef.current.root.innerHTML = template.email; // Populate editor with the existing template email content
+      }
+    }
+  }, [template]); // Re-run effect if template changes
+
   const handleSave = async () => {
     if (quillRef.current) {
       const emailContent = quillRef.current.root.innerHTML;
@@ -43,12 +46,16 @@ const TemplateEditor = () => {
       setLoading(true);
 
       try {
-        // Send POST request to the backend API
-        const response = await fetch("http://localhost:5000/templates", {
-          method: "POST",
+        const method = template ? "PUT" : "POST"; // Use PUT for editing, POST for new template
+        const endpoint = template
+          ? `http://localhost:5000/templates/${template.id}`
+          : "http://localhost:5000/templates";
+
+        const response = await fetch(endpoint, {
+          method,
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Pass token for authentication
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             subject,
@@ -57,9 +64,8 @@ const TemplateEditor = () => {
         });
 
         const data = await response.json();
-        console.log("New data from text editor file: ", data);
         if (response.ok) {
-          setShowSuccess(true); // Show success message
+          setShowSuccess(true);
           setTimeout(() => setShowSuccess(false), 3000); // Hide after 3 seconds
         } else {
           alert(`Error saving template: ${data.message}`);
@@ -110,8 +116,7 @@ const TemplateEditor = () => {
           <button
             className="flex items-center justify-center transition-all w-8 h-8 rounded-md text-white hover:bg-white/10 active:bg-white/10 absolute top-1.5 right-1.5"
             type="button"
-            onClick={() => setShowSuccess(false)} // Close the message manually
-          >
+            onClick={() => setShowSuccess(false)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
