@@ -1,12 +1,15 @@
+// TemplateEditor.js
 import React, { useRef, useEffect, useState } from "react";
-import "quill/dist/quill.snow.css"; // Import Quill's styles
+import "quill/dist/quill.snow.css";
 import Quill from "quill";
-import "./TextEditor.css";
+import TemplateModal from "./TemplateModal";
+import mustache from "mustache";
 
-const TemplateEditor = ({ template }) => {
+const TemplateEditor = ({ template, formData, setFormData }) => {
   const editorContainerRef = useRef(null);
   const quillRef = useRef(null);
-  const [subject, setSubject] = useState(template ? template.subject : ""); // Initialize with template subject if available
+  const [showModal, setShowModal] = useState(false);
+  const [subject, setSubject] = useState(template ? template.subject : "");
   const [loading, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -28,55 +31,65 @@ const TemplateEditor = ({ template }) => {
       });
 
       if (template && template.email) {
-        quillRef.current.root.innerHTML = template.email; // Populate editor with the existing template email content
+        quillRef.current.root.innerHTML = template.email;
       }
     }
-  }, [template]); // Re-run effect if template changes
+  }, [template]);
 
   const handleSave = async () => {
-    if (quillRef.current) {
+    setLoading(true);
+    try {
       const emailContent = quillRef.current.root.innerHTML;
-      const token = localStorage.getItem("token");
+      const url = template
+        ? `http://localhost:5000/templates/${template.id}`
+        : "http://localhost:5000/templates";
+      const method = template ? "PUT" : "POST";
 
-      if (!subject) {
-        alert("Please enter a subject");
-        return;
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          subject,
+          email: emailContent,
+        }),
+      });
+
+      if (response.ok) {
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      } else {
+        console.error("Failed to save the email.");
       }
+    } catch (error) {
+      console.error("Error saving email:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      setLoading(true);
+  useEffect(() => {
+    if (quillRef.current && template) {
+      console.log("Template email content:", template.email);
+      console.log("Current form data:", formData);
 
-      try {
-        const method = template ? "PUT" : "POST"; // Use PUT for editing, POST for new template
-        const endpoint = template
-          ? `http://localhost:5000/templates/${template.id}`
-          : "http://localhost:5000/templates";
+      if (formData) {
+        const parsedTemplate = mustache.render(template.email, formData);
+        console.log("Parsed template content:", parsedTemplate);
 
-        const response = await fetch(endpoint, {
-          method,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            subject,
-            email: emailContent,
-          }),
-        });
-
-        const data = await response.json();
-        if (response.ok) {
-          setShowSuccess(true);
-          setTimeout(() => setShowSuccess(false), 3000); // Hide after 3 seconds
-        } else {
-          alert(`Error saving template: ${data.message}`);
-        }
-      } catch (error) {
-        console.error("Error saving template:", error);
-        alert("An error occurred while saving the template.");
-      } finally {
-        setLoading(false);
+        quillRef.current.root.innerHTML = parsedTemplate;
+      } else {
+        console.error("Form data is undefined or empty");
       }
     }
+  }, [template, formData]);
+
+  const handleModalSubmit = (formData) => {
+    console.log("Form Data from Modal:", formData);
+    setFormData(formData); // Update formData state
+    setShowModal(false); // Close modal
   };
 
   return (
@@ -90,7 +103,7 @@ const TemplateEditor = ({ template }) => {
             className="w-full h-10 pl-3 py-2 border rounded"
             placeholder="Enter your Email Subject"
             value={subject}
-            onChange={(e) => setSubject(e.target.value)} // Update subject state
+            onChange={(e) => setSubject(e.target.value)}
           />
         </div>
       </div>
@@ -107,31 +120,17 @@ const TemplateEditor = ({ template }) => {
         </button>
       </div>
 
-      {/* Success Message */}
+      {template && (
+        <TemplateModal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          onSubmit={handleModalSubmit}
+          template={template}
+        />
+      )}
+
       {showSuccess && (
-        <div
-          role="alert"
-          className="mb-4 relative flex w-full p-3 text-sm text-white bg-green-600 rounded-md">
-          Template saved successfully!
-          <button
-            className="flex items-center justify-center transition-all w-8 h-8 rounded-md text-white hover:bg-white/10 active:bg-white/10 absolute top-1.5 right-1.5"
-            type="button"
-            onClick={() => setShowSuccess(false)}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="h-5 w-5"
-              strokeWidth="2">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
+        <div className="text-green-500 mt-4">Email saved successfully!</div>
       )}
     </div>
   );

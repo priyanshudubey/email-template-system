@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { LiaEditSolid } from "react-icons/lia"; // Import edit icon
-import { RiDeleteBin5Line } from "react-icons/ri"; // Import delete icon
-import TemplateEditor from "./TemplateEditor"; // Import TemplateEditor for editing
+import { LiaEditSolid } from "react-icons/lia";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import TemplateEditor from "./TemplateEditor";
 
 const ViewEditTemplates = () => {
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState(null); // State for selected template to edit
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [formData, setFormData] = useState({}); // State for form data
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -34,8 +36,6 @@ const ViewEditTemplates = () => {
   const handleDelete = async (templateId) => {
     try {
       const token = localStorage.getItem("token");
-
-      // Make DELETE request to remove the template from the backend
       const response = await fetch(
         `http://localhost:5000/templates/${templateId}`,
         {
@@ -47,7 +47,6 @@ const ViewEditTemplates = () => {
       );
 
       if (response.ok) {
-        // If deletion is successful, remove the template from the frontend
         setTemplates(
           templates.filter((template) => template.id !== templateId)
         );
@@ -62,14 +61,24 @@ const ViewEditTemplates = () => {
   };
 
   const handleEdit = (template) => {
-    setSelectedTemplate(template); // Set the template to be edited
+    setSelectedTemplate(template);
+    setShowModal(true); // Open modal when a template is selected
+  };
+
+  const handleModalSubmit = (formData) => {
+    console.log("Form Data from Modal:", formData);
+    setFormData(formData); // Store formData
+    setShowModal(false); // Close modal
   };
 
   return (
     <div className="mt-4">
       {selectedTemplate ? (
-        // Render TemplateEditor with the selected template for editing
-        <TemplateEditor template={selectedTemplate} />
+        <TemplateEditor
+          template={selectedTemplate}
+          formData={formData} // Ensure formData is passed here
+          setFormData={setFormData}
+        />
       ) : (
         <>
           {loading ? (
@@ -89,12 +98,12 @@ const ViewEditTemplates = () => {
                   <div className="absolute top-2 right-2 flex space-x-2">
                     <button
                       onClick={() => handleEdit(template)} // Pass the entire template object
-                      className="p-2 text-white bg-yellow-500 rounded-full hover:bg-yellow-600 transition">
+                      className="p-2 text-white bg-green-400 rounded-full hover:bg-yellow-600 transition">
                       <LiaEditSolid size={20} />
                     </button>
                     <button
                       onClick={() => handleDelete(template.id)} // Handle deletion
-                      className="p-2 text-white bg-red-500 rounded-full hover:bg-red-600 transition">
+                      className="p-2 text-white bg-red-400 rounded-full hover:bg-red-600 transition">
                       <RiDeleteBin5Line size={20} />
                     </button>
                   </div>
