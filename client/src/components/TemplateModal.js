@@ -1,5 +1,5 @@
-// TemplateModal.js
 import React, { useState, useEffect } from "react";
+// import "./ModalStyles.css";
 
 const TemplateModal = ({ show, onHide, onSubmit, template }) => {
   const [formData, setFormData] = useState({});
@@ -52,17 +52,21 @@ const TemplateModal = ({ show, onHide, onSubmit, template }) => {
 
   return (
     <div className={`modal ${show ? "show" : "hide"}`}>
-      <div className="modal-content">
-        <button onClick={onHide}>Close</button>
+      <div className="bg-teal-600 m-2 p-2 rounded-lg shadow-md shadow-black">
         <form
           onSubmit={(e) => {
             e.preventDefault();
             onSubmit(formData);
           }}>
           {templateDetails.placeholders.map((placeholder) => (
-            <div key={placeholder}>
-              <label>{placeholder}</label>
+            <div
+              className="text-left"
+              key={placeholder}>
+              <label className=" rounded-lg text-white font-bold">
+                {placeholder}
+              </label>
               <input
+                className="w-48 p-2 m-2 text-gray-700 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 type="text"
                 name={placeholder}
                 value={formData[placeholder] || ""}
@@ -71,19 +75,33 @@ const TemplateModal = ({ show, onHide, onSubmit, template }) => {
             </div>
           ))}
           {templateDetails.sections.map((section) => (
-            <div key={section}>
-              <label>
+            <div
+              key={section}
+              className="space-x-2">
+              <label className="flex items-center">
                 <input
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                   type="checkbox"
                   name={section}
                   checked={formData[section] || false}
                   onChange={handleCheckboxChange}
                 />
-                {section}
+                <span className="ml-2 text-white min-w-[150px] text-left">
+                  {section}
+                </span>
               </label>
             </div>
           ))}
-          <button type="submit">Submit</button>
+          <button
+            className="bg-black text-white m-2 p-2 rounded-lg"
+            onClick={onHide}>
+            Close
+          </button>
+          <button
+            className="bg-black text-white rounded-lg m-2 p-2"
+            type="submit">
+            Submit
+          </button>
         </form>
       </div>
     </div>

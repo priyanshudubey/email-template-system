@@ -1,4 +1,3 @@
-// TemplateEditor.js
 import React, { useRef, useEffect, useState } from "react";
 import "quill/dist/quill.snow.css";
 import Quill from "quill";
