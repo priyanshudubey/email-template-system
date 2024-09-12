@@ -13,6 +13,18 @@
   border-radius: 4px;
   overflow-y: auto;
   height: calc(80% - 40px); /* Adjust height to account for button */
+  counter-reset: line;
+  padding-left: 0;
+}
+
+.editor p:before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  border-right: 1px solid #ddd;
+  padding: 0 0.5em;
+  margin-right: 0.5em;
+  color: #888;
 }
 
 .save-button {
