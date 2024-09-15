@@ -11,6 +11,9 @@ const TemplateHome = () => {
       <h1 className="text-3xl font-bold mb-6 text-center">
         Manage Your Templates
       </h1>
+      <p className="mb-8">
+        Choose an action to get started with your email templates.
+      </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <Link
           to="/templates/create"
@@ -18,6 +21,11 @@ const TemplateHome = () => {
           <FaRegEdit className="text-4xl mb-4 text-yellow-300" />
           <h2 className="text-2xl font-semibold mb-2">Create Template</h2>
           <p>Create and design your email templates easily.</p>
+          <p className="text-black font-bold mt-4">
+            Start with a blank canvas and create a custom email template
+            tailored to your needs. Our intuitive editor makes it easy to design
+            professional-looking emails.
+          </p>
         </Link>
         <Link
           to="/templates/view-edit"
@@ -25,6 +33,11 @@ const TemplateHome = () => {
           <RiFileEditLine className="text-4xl mb-4 text-yellow-300" />
           <h2 className="text-2xl font-semibold mb-2">View/Edit Templates</h2>
           <p>Manage existing templates, view and edit as needed.</p>
+          <p className="text-black font-bold mt-4">
+            Access your saved templates to view, edit, or use them for your
+            email campaigns. Keep your templates up-to-date and ready for any
+            occasion.
+          </p>
         </Link>
       </div>
     </div>

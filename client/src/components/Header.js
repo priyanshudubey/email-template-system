@@ -31,7 +31,7 @@ const Header = () => {
             className="w-12 h-12 sm:w-14 sm:h-14 cursor-pointer"
             src="/favicon.png"
             alt="logo"
-            onClick={() => navigate("/home")}
+            onClick={() => navigate("/landingPage")}
           />
         </div>
 
@@ -49,7 +49,7 @@ const Header = () => {
           <ul className="flex p-8 m-8 gap-4">
             <li
               className="px-4 rounded-lg font-extrabold cursor-pointer"
-              onClick={() => navigate("/home")}>
+              onClick={() => navigate("/landingPage")}>
               Home
             </li>
             <li className="px-4 rounded-lg font-extrabold cursor-pointer">

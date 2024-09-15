@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { validation } from "../utils/validate";
 import Tooltip from "../utils/Tooltip";
 import { useAuth } from "../utils/authContext";
+import { FiEye, FiEyeOff, FiMail, FiLock } from "react-icons/fi";
 
 const Login = () => {
   const { login } = useAuth(); // Get login function from context
@@ -40,7 +41,7 @@ const Login = () => {
           localStorage.setItem("username", data.username);
           login(data.token); // Call login function from context
           console.log("Navigating to home");
-          navigate("/home");
+          navigate("/landingPage");
         } else {
           setErrors({ general: data.message });
         }
@@ -71,27 +72,41 @@ const Login = () => {
         />
         <br />
         <div className="relative">
+          <label
+            htmlFor="email"
+            className="flex items-center gap-2 text-md font-medium text-white">
+            <FiMail className="text-white" />
+            Email
+          </label>
           <input
             ref={email}
             className="p-4 my-2 w-full rounded-lg bg-black shadow-black shadow-lg"
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder=""
           />
           {errors.email && <Tooltip message={errors.email} />}
         </div>
         <div className="relative">
+          <label className="flex items-center gap-2 text-md font-medium text-white">
+            <FiLock className="text-white" />
+            Password
+          </label>
           <input
             ref={password}
             className="p-4 my-2 w-full rounded-lg bg-black shadow-black shadow-lg"
             type={showPassword ? "text" : "password"}
             name="password"
-            placeholder="Password"
+            placeholder="password"
           />
           <span
             onClick={togglePasswordVisibility}
             className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-white">
-            {showPassword ? "🙈" : "👁️"}
+            {showPassword ? (
+              <FiEyeOff className="h-5 w-5 text-gray-400" />
+            ) : (
+              <FiEye className="h-5 w-5 text-gray-400" />
+            )}
           </span>
           {errors.password && <Tooltip message={errors.password} />}
         </div>
@@ -101,13 +116,15 @@ const Login = () => {
           type="submit">
           Sign In
         </button>
-        <p className="text-center text-white">Don't have an account?</p>
-        <button
-          onClick={handleSignUpClick}
-          className="p-4 my-2 bg-black w-full rounded-lg font-extrabold hover:bg-gray-500 shadow-black shadow-lg"
-          type="submit">
-          Sign Up
-        </button>
+        <div className="text-center">
+          <p className="text-center text-white">Don't have an account?</p>
+          <button
+            onClick={handleSignUpClick}
+            className="text-black font-bold"
+            type="submit">
+            Sign Up
+          </button>
+        </div>
       </form>
     </div>
   );

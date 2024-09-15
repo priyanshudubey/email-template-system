@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FiUser, FiMail, FiEdit2 } from "react-icons/fi";
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState({ username: "", email: "" });
@@ -90,7 +91,10 @@ const Profile = () => {
       <h1 className="text-2xl font-bold text-center mb-6">Profile</h1>
       <form className="space-y-4">
         <div className="flex flex-col">
-          <label className="mb-2 font-semibold text-gray-700">Username:</label>
+          <label className="mb-2 font-semibold text-gray-700 flex items-center gap-2">
+            <FiUser className="text-gray-500" />
+            Username
+          </label>
           <input
             type="text"
             name="username"
@@ -101,7 +105,10 @@ const Profile = () => {
           />
         </div>
         <div className="flex flex-col">
-          <label className="mb-2 font-semibold text-gray-700">Email:</label>
+          <label className="mb-2 font-semibold text-gray-700 flex items-center gap-2">
+            <FiMail className="text-gray-500" />
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -131,8 +138,9 @@ const Profile = () => {
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="px-4 py-2 bg-teal-600 text-white font-bold rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600">
-              Edit Profile
+              className="px-4 py-2 bg-teal-600 text-white font-bold rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 flex justify-end gap-2">
+              <FiEdit2 className="text-white" />
+              Edit
             </button>
           )}
         </div>

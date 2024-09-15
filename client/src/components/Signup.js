@@ -115,13 +115,15 @@ const Signup = () => {
           {errors.server && (
             <p className="text-red-500 text-center">{errors.server}</p>
           )}
-          <p className="text-center text-white">Already have an account?</p>
-          <button
-            onClick={handleLoginClick}
-            className="p-4 my-4 bg-black w-full rounded-lg font-extrabold shadow-black shadow-lg"
-            type="submit">
-            Sign In
-          </button>
+          <div className="text-center">
+            <p className="text-center text-white">Already have an account?</p>
+            <button
+              onClick={handleLoginClick}
+              className="text-black font-bold"
+              type="submit">
+              Sign In
+            </button>
+          </div>
         </form>
       </div>
     </div>

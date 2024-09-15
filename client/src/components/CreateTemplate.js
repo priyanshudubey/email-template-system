@@ -1,7 +1,6 @@
 // CreateTemplate.js
 import React from "react";
-import TemplateEditor from "./TemplateEditor"; // Import the TemplateEditor component
-
+import TemplateEditor from "./TemplateEditor";
 const CreateTemplate = () => {
   return (
     <div className="mt-4">
