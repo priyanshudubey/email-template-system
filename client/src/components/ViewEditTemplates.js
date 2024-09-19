@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { LiaEditSolid } from "react-icons/lia";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { BsFillSendArrowUpFill } from "react-icons/bs";
 import TemplateEditor from "./TemplateEditor";
 
 const ViewEditTemplates = () => {
@@ -62,13 +63,13 @@ const ViewEditTemplates = () => {
 
   const handleEdit = (template) => {
     setSelectedTemplate(template);
-    setShowModal(true); // Open modal when a template is selected
+    setShowModal(true);
   };
 
   const handleModalSubmit = (formData) => {
     console.log("Form Data from Modal:", formData);
-    setFormData(formData); // Store formData
-    setShowModal(false); // Close modal
+    setFormData(formData);
+    setShowModal(false);
   };
 
   return (
@@ -96,11 +97,17 @@ const ViewEditTemplates = () => {
 
                   {/* Edit and Delete Icons */}
                   <div className="absolute top-2 right-2 flex space-x-2">
+                    {/* Execute Button */}
+                    <button className="p-2 text-black bg-white rounded-full hover:bg-yellow-600 transition">
+                      <BsFillSendArrowUpFill size={20} />
+                    </button>
+                    {/* Edit Button */}
                     <button
                       onClick={() => handleEdit(template)} // Pass the entire template object
                       className="p-2 text-white bg-green-400 rounded-full hover:bg-yellow-600 transition">
                       <LiaEditSolid size={20} />
                     </button>
+                    {/* Delete Button */}
                     <button
                       onClick={() => handleDelete(template.id)} // Handle deletion
                       className="p-2 text-white bg-red-400 rounded-full hover:bg-red-600 transition">
