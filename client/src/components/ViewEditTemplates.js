@@ -78,9 +78,10 @@ const ViewEditTemplates = () => {
   };
 
   return (
-    <div className="mt-4">
+    <div className="px-4 sm:px-6 lg:px-8">
+      {/* Buttons on the top, aligned to the right */}
       {selectedTemplate && (
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-end items-center mb-6 space-x-4">
           <Link
             to="/templates/create"
             className="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-500 transition">
@@ -94,6 +95,7 @@ const ViewEditTemplates = () => {
         </div>
       )}
 
+      {/* Main content for template viewing/editing */}
       {selectedTemplate ? (
         <TemplateEditor
           template={selectedTemplate}
@@ -110,10 +112,16 @@ const ViewEditTemplates = () => {
                 <li
                   key={template.id}
                   className="relative p-4 border rounded-lg shadow-sm shadow-black bg-teal-600">
-                  <h3 className="text-lg font-bold mb-2">{template.subject}</h3>
-                  <p className="text-sm text-white">
-                    Created on: {new Date(template.created_at).toLocaleString()}
-                  </p>
+                  {/* Subject and Info aligned */}
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-lg font-bold text-white">
+                      {template.subject}
+                    </h3>
+                    <span className="text-sm text-white">
+                      Created on:{" "}
+                      {new Date(template.created_at).toLocaleString()}
+                    </span>
+                  </div>
 
                   {/* Edit and Delete Icons */}
                   <div className="absolute top-2 right-2 flex space-x-2">
