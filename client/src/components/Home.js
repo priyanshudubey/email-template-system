@@ -14,7 +14,7 @@ const Home = () => {
         className="relative text-center mb-10 p-8 bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 rounded-lg shadow-lg overflow-hidden shadow-black"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2 }}>
+        transition={{ duration: 3.2 }}>
         <h1 className="text-5xl font-extrabold mb-6 text-white drop-shadow-lg">
           Welcome to the <span className="text-yellow-400">eTemp Store!</span>
         </h1>
@@ -27,10 +27,10 @@ const Home = () => {
           email templates.
         </p>
 
-        {/* <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 bg-teal-400 opacity-20 blur-3xl"></div>
           <div className="absolute inset-0 bg-teal-600 opacity-10 blur-2xl rounded-full transform scale-150"></div>
-        </div> */}
+        </div>
       </motion.div>
 
       {/* Instruction Section */}

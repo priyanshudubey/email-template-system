@@ -58,13 +58,9 @@ const Login = () => {
     navigate("/signup");
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
   return (
     <div>
-      <form className="relative w-full m-12 p-12 md:w-3/12 mx-auto text-white bg-teal-600 rounded-lg shadow-black shadow-2xl">
+      <form className="relative w-full m-12 p-12 md:w-4/12 mx-auto text-white bg-teal-600 rounded-lg shadow-black shadow-2xl text-md">
         <img
           className="h-20 mx-auto"
           src="/logo.png"
@@ -80,35 +76,34 @@ const Login = () => {
           </label>
           <input
             ref={email}
-            className="p-4 my-2 w-full rounded-lg bg-black shadow-black shadow-lg"
+            className="p-2 my-2 w-full rounded-lg bg-black shadow-black shadow-lg"
             type="email"
             name="email"
             placeholder=""
           />
           {errors.email && <Tooltip message={errors.email} />}
         </div>
-        <div className="relative">
+        <div className="relative w-full">
           <label className="flex items-center gap-2 text-md font-medium text-white">
             <FiLock className="text-white" />
             Password
           </label>
-          <input
-            ref={password}
-            className="p-4 my-2 w-full rounded-lg bg-black shadow-black shadow-lg"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            placeholder="password"
-          />
-          <span
-            onClick={togglePasswordVisibility}
-            className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-white">
-            {showPassword ? (
-              <FiEyeOff className="h-5 w-5 text-gray-400" />
-            ) : (
-              <FiEye className="h-5 w-5 text-gray-400" />
-            )}
-          </span>
-          {errors.password && <Tooltip message={errors.password} />}
+
+          <div className="relative flex items-center">
+            <input
+              ref={password}
+              className="p-2 my-4 w-full rounded-lg bg-black shadow-black shadow-lg"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 text-white focus:outline-none">
+              {showPassword ? <FiEyeOff /> : <FiEye />}
+            </button>
+          </div>
         </div>
         <button
           onClick={handleLoginClick}

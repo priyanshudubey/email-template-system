@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiUser, FiMail, FiEdit2 } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
+import { MdOutlinePersonRemove } from "react-icons/md";
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState({ username: "", email: "" });
@@ -19,7 +21,11 @@ const Profile = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setUserDetails({ username: data.username, email: data.email });
+          setUserDetails({
+            name: data.name,
+            username: data.username,
+            email: data.email,
+          });
         } else if (response.status === 401) {
           // Unauthorized
           console.log(
@@ -88,11 +94,27 @@ const Profile = () => {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold text-center mb-6">Profile</h1>
+      <h1 className="text-6xl font-bold text-center mb-6 flex justify-center">
+        <CgProfile className="text-teal-600 font-extrabold" />
+      </h1>
       <form className="space-y-4">
         <div className="flex flex-col">
           <label className="mb-2 font-semibold text-gray-700 flex items-center gap-2">
-            <FiUser className="text-gray-500" />
+            <MdOutlinePersonRemove className="text-teal-600" />
+            Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-600"
+            value={userDetails.name}
+            onChange={handleInputChange}
+            disabled={!isEditing}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label className="mb-2 font-semibold text-gray-700 flex items-center gap-2">
+            <FiUser className="text-teal-600" />
             Username
           </label>
           <input
@@ -106,7 +128,7 @@ const Profile = () => {
         </div>
         <div className="flex flex-col">
           <label className="mb-2 font-semibold text-gray-700 flex items-center gap-2">
-            <FiMail className="text-gray-500" />
+            <FiMail className="text-teal-600" />
             Email
           </label>
           <input
@@ -138,7 +160,7 @@ const Profile = () => {
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="px-4 py-2 bg-teal-600 text-white font-bold rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 flex justify-end gap-2">
+              className="px-4 py-2 bg-teal-600 text-white font-bold rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 flex justify-end gap-2">
               <FiEdit2 className="text-white" />
               Edit
             </button>

@@ -9,7 +9,7 @@ const cors = require("cors");
 const authenticateToken = require("../middleware/authenticateToken");
 
 const corsOptions = {
-  origin: "http://localhost:3000", // Adjust if needed
+  origin: "http://localhost:3000",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Content-Type, Authorization",
 };
@@ -19,28 +19,21 @@ router.use(cors(corsOptions));
 router.post("/signup", async (req, res) => {
   console.log("Inside signup");
   try {
-    const { username, email, password } = req.body;
-    // console.log(
-    //   "Username: ",
-    //   username,
-    //   " - Email: ",
-    //   email,
-    //   " - password: ",
-    //   password
-    // );
+    const { name, username, email, password } = req.body;
     const existingUser = await User.findOne({ where: { email } });
-    console.log("existing");
+    // console.log("existing");
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    console.log("before hashing");
+    // console.log("before hashing");
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
+      name,
       username,
       email,
       password: hashedPassword,
     });
-    console.log("new: ", newUser);
+    // console.log("new: ", newUser);
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -85,7 +78,7 @@ router.get("/profile", authenticateToken, async (req, res) => {
     const userId = req.user.id;
 
     const user = await User.findByPk(userId, {
-      attributes: ["id", "username", "email"],
+      attributes: ["name", "id", "username", "email"],
     });
 
     if (!user) {
@@ -103,9 +96,9 @@ router.get("/profile", authenticateToken, async (req, res) => {
 router.put("/profile", authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
-    const { username, email, password } = req.body;
+    const { name, username, email, password } = req.body;
 
-    const updateData = { username, email };
+    const updateData = { name, username, email };
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updateData.password = hashedPassword;

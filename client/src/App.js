@@ -10,6 +10,7 @@ import Profile from "./components/Profile";
 import PrivateRoute from "./utils/PrivateRouter";
 import LandingPage from "./components/LandingPage";
 import Footer from "./components/Footer";
+import MelaAI from "./components/MelaAI";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -49,6 +50,10 @@ function App() {
           <Route
             path="/footer"
             element={<PrivateRoute element={<Footer />} />}
+          />
+          <Route
+            path="/melaAI"
+            element={<PrivateRoute element={<MelaAI />} />}
           />
         </Routes>
       </Router>

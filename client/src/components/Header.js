@@ -23,7 +23,7 @@ const Header = () => {
   };
 
   return (
-    <div className="w-screen bg-teal-600 font-bold shadow-black shadow-md rounded-lg">
+    <div className="w-screen bg-teal-600 font-bold shadow-black shadow-md">
       {/* Header content */}
       <div className="h-20 flex justify-between items-center text-[#545454] px-4 sm:px-6 py-2">
         <div className="w-20 sm:w-24 flex justify-center sm:justify-start">
@@ -57,6 +57,11 @@ const Header = () => {
             </li>
             <li
               className="px-4 rounded-lg font-extrabold cursor-pointer"
+              onClick={() => navigate("/melaAI")}>
+              melaAI
+            </li>
+            <li
+              className="px-4 rounded-lg font-extrabold cursor-pointer"
               onClick={() => navigate("/profile")}>
               Profile
             </li>
@@ -87,7 +92,7 @@ const Header = () => {
             <li
               className="px-4 py-2 rounded-lg font-extrabold cursor-pointer"
               onClick={() => {
-                navigate("/home");
+                navigate("/landingPage");
                 setIsMenuOpen(false);
               }}>
               Home
@@ -95,7 +100,7 @@ const Header = () => {
             <li
               className="px-4 py-2 rounded-lg font-extrabold cursor-pointer"
               onClick={() => {
-                navigate("/template");
+                navigate("/templates");
                 setIsMenuOpen(false);
               }}>
               Templates
