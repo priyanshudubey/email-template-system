@@ -5,7 +5,8 @@ import { BsFillSendArrowUpFill } from "react-icons/bs";
 import TemplateEditor from "./TemplateEditor";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import RawTemplateEditor from "./RawTemplateEditor"; // Import RawTemplateEditor
-import axios from "axios";
+// import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ViewEditTemplates = () => {
   const [templates, setTemplates] = useState([]);
@@ -15,7 +16,8 @@ const ViewEditTemplates = () => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(null); // State to store errors
   const [editingTemplate, setEditingTemplate] = useState(null); // For editing template
-  const [successMessage, setSuccessMessage] = useState("");
+  // const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -101,6 +103,7 @@ const ViewEditTemplates = () => {
 
       const templateData = await response.json();
       console.log("Fetched template data:", templateData);
+      navigate(`/edit-template/${template.id}`);
       setEditingTemplate(templateData); // Set the template data for editing
       setShowModal(true); // Open modal
     } catch (error) {
@@ -111,6 +114,7 @@ const ViewEditTemplates = () => {
 
   const handleUpdate = async (updatedTemplate) => {
     console.log("Updated template: ", updatedTemplate);
+
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
@@ -127,14 +131,16 @@ const ViewEditTemplates = () => {
           }),
         }
       );
-      const updat = await response.data; // Use .data to access the actual response data
-      console.log("Updated template data:", updat);
 
       if (!response.ok) {
         throw new Error("Failed to update template.");
       }
 
+      // Parse the response as JSON
       const updatedTemplateData = await response.json();
+      console.log("Updated template data:", updatedTemplateData);
+
+      // Update the templates in state
       setTemplates(
         templates.map((template) =>
           template.id === updatedTemplateData.id
@@ -142,6 +148,7 @@ const ViewEditTemplates = () => {
             : template
         )
       );
+
       setShowModal(false);
       alert("Template successfully updated.");
     } catch (error) {
@@ -149,6 +156,7 @@ const ViewEditTemplates = () => {
       alert("Failed to update template.");
     }
   };
+
   // const handleUpdate = async (updatedTemplate) => {
   //   try {
   //     const token = localStorage.getItem("token");
@@ -201,6 +209,12 @@ const ViewEditTemplates = () => {
   const handleViewEditTemplates = () => {
     setSelectedTemplate(null);
     setShowModal(false); // Close modal if opened
+  };
+  const handleContentChange = (updatedContent) => {
+    setEditingTemplate({
+      ...editingTemplate,
+      email: updatedContent,
+    });
   };
 
   return (
@@ -295,7 +309,10 @@ const ViewEditTemplates = () => {
           <div className="bg-white p-6 rounded-lg w-3/4 max-w-2xl">
             <h2 className="text-xl font-semibold mb-4">Edit Template</h2>
             {/* Render RawTemplateEditor component */}
-            <RawTemplateEditor templateContent={editingTemplate.email} />
+            <RawTemplateEditor
+              templateContent={editingTemplate.email}
+              onContentChange={handleContentChange}
+            />
             <div className="mt-4 flex justify-end space-x-4">
               <button
                 onClick={() => setShowModal(false)}

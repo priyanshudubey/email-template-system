@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 
-const RawTemplateEditor = ({ templateContent }) => {
+const RawTemplateEditor = ({ templateContent, onContentChange }) => {
   const editorContainerRef = useRef(null);
   const quillRef = useRef(null);
 
@@ -15,10 +15,17 @@ const RawTemplateEditor = ({ templateContent }) => {
         },
       });
 
-      // Set the raw template content inside the editor
+      // Set the initial content
       quillRef.current.root.innerHTML = templateContent;
+
+      // Listen for text change events and call onContentChange
+      quillRef.current.on("text-change", () => {
+        if (onContentChange) {
+          onContentChange(quillRef.current.root.innerHTML);
+        }
+      });
     }
-  }, [templateContent]);
+  }, [templateContent, onContentChange]);
 
   return (
     <div className="w-full h-60 overflow-y-auto border border-gray-300 rounded mb-6">

@@ -11,6 +11,7 @@ import PrivateRoute from "./utils/PrivateRouter";
 import LandingPage from "./components/LandingPage";
 import Footer from "./components/Footer";
 import MelaAI from "./components/MelaAI";
+import EditTemplatePage from "./components/EditTemplatePage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -54,6 +55,10 @@ function App() {
           <Route
             path="/melaAI"
             element={<PrivateRoute element={<MelaAI />} />}
+          />
+          <Route
+            path="/edit-template/:id"
+            element={<EditTemplatePage />}
           />
         </Routes>
       </Router>
